@@ -1,46 +1,48 @@
 (function (window, angular) {
 
     var m = angular.module('pjerNavCtrl', []);
-    m.service('pjerNavCtrlConfig', NavCtrlConfig);
+    m.service('navService', NavService);
     m.controller('NavCtrl', NavCtrl);
 
-    function NavCtrlConfig() {
-        this.pageUrlResolver = function (pageId) {
-            return pageId;
+    NavService.$inject = ['$templateRequest', '$compile', '$q'];
+
+    function NavService($templateRequest, $compile, $q) {
+
+        var src = this;
+
+        src.resolvePageContent = function (pageId) {
+            return $templateRequest(pageId);
+        };
+
+        src.compilePage = function (pageId, scope) {
+            return src.resolvePageContent(pageId).then(function (pageContent) {
+                var unlinked = angular.element('<div/>').html(pageContent);
+                unlinked.addClass('nav-ctrl-page');
+                var link = $compile(unlinked);
+                var linked = link(scope);
+                return {
+                    scope: scope,
+                    element: linked,
+                    deferred: $q.defer()
+                };
+            });
         };
     }
 
-    NavCtrl.$inject = ['$scope', '$element', '$templateRequest', '$compile', '$animate', '$q', '$timeout', 'pjerNavCtrlConfig'];
+    NavCtrl.$inject = ['$scope', '$element', '$animate', '$q', '$timeout', 'navService'];
 
-    function NavCtrl($scope, $element, $templateRequest, $compile, $animate, $q, $timeout, pjerNavCtrlConfig) {
+    function NavCtrl($scope, $element, $animate, $q, $timeout, navService) {
 
         var ctrl = this;
 
         var pages = [];
 
-        var newPage = function (pageId, params) {
-            var templateUrl = pjerNavCtrlConfig.pageUrlResolver(pageId);
-            return $templateRequest(templateUrl).then(function (template) {
-                var pageRaw = angular.element('<div/>').html(template);
-                pageRaw.addClass('nav-ctrl-page');
-                var pageLink = $compile(pageRaw);
-                var pageScope = $scope.$new();
-                pageScope.pageParams = params;
-                pageScope.present = ctrl.present;
-                pageScope.push = ctrl.push;
-                pageScope.pop = ctrl.pop;
-                var element = pageLink(pageScope);
-                return {
-                    scope: pageScope,
-                    params: params,
-                    element: element,
-                    deferred: $q.defer()
-                };
-            });
-        };
-
         ctrl.present = function (pageId, animation, params) {
-            return newPage(pageId, params).then(function (page) {
+            return navService.compilePage(pageId, $scope.$new()).then(function (page) {
+                page.scope.pageParams = page.params = params;
+                page.scope.present = ctrl.present;
+                page.scope.push = ctrl.push;
+                page.scope.pop = ctrl.pop;
                 var backPage = pages.length ? pages[0] : null;
                 pages.unshift(page);
                 if (animation) {
