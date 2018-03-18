@@ -1,1 +1,110 @@
-<h1>TODO</h1>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ratchet/2.0.2/css/ratchet.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"/>
+    <link rel="stylesheet" href="angular-pjer-nav-ctrl.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-animate.min.js"></script>
+    <script src="angular-pjer-nav-ctrl.js"></script>
+    <script>
+        (function (window, angular) {
+
+            var m = angular.module('app', ['ngAnimate', 'pjerNavCtrl']);
+
+            m.run(['$q', 'navService', function ($q, navService) {
+                navService.resolvePageContent = function (pageId) {
+                    return $q(function (resolve) {
+                        var el = document.querySelector(pageId);
+                        return resolve(el ? el.innerHTML : '<h1>404</h1>');
+                    });
+                }
+            }]);
+
+        })(window, window.angular);
+    </script>
+</head>
+<body ng-app="app">
+<div ng-controller="NavCtrl as rootNavCtrl" data-nav-ctrl-page="#main">
+</div>
+<template id="main">
+    <header class="bar bar-nav">
+        <h1 class="title">#main</h1>
+    </header>
+    <div class="content">
+        <ul class="table-view">
+            <li class="table-view-cell">
+                <b>pageParams</b>: {{pageParams}}
+            </li>
+            <li class="table-view-cell">
+                <b>pageReturn</b>: {{pageReturn}}
+            </li>
+            <li class="table-view-cell table-view-divider">
+                &nbsp;
+            </li>
+            <li class="table-view-cell">
+                <a class="push-right" href="#" ng-click="push('#other')">
+                    push('#other')
+                </a>
+            </li>
+            <li class="table-view-cell">
+                <a class="push-right" href="#" ng-click="present('#other', 'push')">
+                    present('#other', 'push')
+                </a>
+            </li>
+            <li class="table-view-cell">
+                <a class="push-right" href="#" ng-click="present('#other', 'pushup')">
+                    present('#other', 'pushup')
+                </a>
+            </li>
+            <li class="table-view-cell">
+                <a class="push-right" href="#" ng-click="push('#other', 'a string param')">
+                    push('#other', 'a string param')
+                </a>
+            </li>
+            <li class="table-view-cell">
+                <a class="push-right" href="#" ng-click="push('#other', {key: 'json'})">
+                    push('#other', {key: 'json'})
+                </a>
+            </li>
+        </ul>
+    </div>
+</template>
+<template id="other">
+    <header class="bar bar-nav">
+        <button class="btn btn-link btn-nav pull-left" ng-click="pop()">
+            <span class="icon icon-left-nav"></span>
+            pop()
+        </button>
+        <h1 class="title">#other</h1>
+    </header>
+    <div class="content">
+        <ul class="table-view">
+            <li class="table-view-cell">
+                <b>pageParams</b>: {{pageParams}}
+            </li>
+            <li class="table-view-cell">
+                <b>pageReturn</b>: {{pageReturn}}
+            </li>
+            <li class="table-view-cell table-view-divider">
+                &nbsp;
+            </li>
+            <li class="table-view-cell">
+                <a class="push-right" href="#" ng-click="pop()">
+                    pop()
+                </a>
+            </li>
+            <li class="table-view-cell">
+                <a class="push-right" href="#" ng-click="pop('a string value')">
+                    pop('a string value')
+                </a>
+            </li>
+            <li class="table-view-cell">
+                <a class="push-right" href="#" ng-click="pop({key: 'json'})">
+                    pop({key: 'json'})
+                </a>
+            </li>
+        </ul>
+    </div>
+</template>
+</body>
+</html>

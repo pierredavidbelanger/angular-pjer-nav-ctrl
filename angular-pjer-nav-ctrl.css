@@ -1,10 +1,6 @@
 
-.nav-ctrl {
-}
-
-.nav-ctrl-page {
+.nav-ctrl-page.ng-animate {
     display: block;
-    width: 100%;
     position: absolute;
     top: 0;
     left: 0;
