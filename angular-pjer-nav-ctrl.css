@@ -1,0 +1,55 @@
+
+.nav-ctrl {
+}
+
+.nav-ctrl-page {
+    display: block;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.nav-ctrl-page.push.ng-enter {
+    -webkit-animation: slideInRight 400ms;
+    -moz-animation: slideInRight 400ms;
+    -ms-animation: slideInRight 400ms;
+    animation: slideInRight 400ms;
+}
+
+.nav-ctrl-page.push.ng-leave {
+    -webkit-animation: slideOutRight 400ms;
+    -moz-animation: slideOutRight 400ms;
+    -ms-animation: slideOutRight 400ms;
+    animation: slideOutRight 400ms;
+}
+
+.nav-ctrl-page.pushup.ng-enter {
+    -webkit-animation: slideInUp 400ms;
+    -moz-animation: slideInUp 400ms;
+    -ms-animation: slideInUp 400ms;
+    animation: slideInUp 400ms;
+}
+
+.nav-ctrl-page.pushup.ng-leave {
+    -webkit-animation: slideOutDown 400ms;
+    -moz-animation: slideOutDown 400ms;
+    -ms-animation: slideOutDown 400ms;
+    animation: slideOutDown 400ms;
+}
+
+.nav-ctrl-page.hidden-add {
+    -webkit-animation: zoomOutDown 200ms;
+    -moz-animation: zoomOutDown 200ms;
+    -ms-animation: zoomOutDown 200ms;
+    animation: zoomOutDown 200ms;
+}
+
+.nav-ctrl-page.hidden-remove {
+    -webkit-animation: zoomInUp 200ms;
+    -moz-animation: zoomInUp 200ms;
+    -ms-animation: zoomInUp 200ms;
+    animation: zoomInUp 200ms;
+}

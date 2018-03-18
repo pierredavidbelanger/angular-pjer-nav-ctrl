@@ -1,0 +1,14 @@
+{
+  "name": "angular-pjer-nav-ctrl",
+  "description": "AngularJS module that provide a mobile like Navigation Controller",
+  "version": "0.0.1",
+  "repository": "https://github.com/pierredavidbelanger/angular-pjer-nav-ctrl.git",
+  "license": "MIT",
+  "author": "Pierre-David Bélanger <pierredavidbelanger@gmail.com>",
+  "main": "index.js",
+  "keywords": [
+    "angularjs",
+    "navigation",
+    "controller"
+  ]
+}
