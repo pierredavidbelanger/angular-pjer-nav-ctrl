@@ -38,11 +38,13 @@
         var pages = [];
 
         ctrl.present = function (pageId, animation, params) {
-            return navService.compilePage(pageId, $scope.$new()).then(function (page) {
-                page.scope.pageParams = page.params = params;
-                page.scope.present = ctrl.present;
-                page.scope.push = ctrl.push;
-                page.scope.pop = ctrl.pop;
+            var scope = $scope.$new();
+            scope.pageParams = params;
+            scope.present = ctrl.present;
+            scope.push = ctrl.push;
+            scope.pop = ctrl.pop;
+            return navService.compilePage(pageId, scope).then(function (page) {
+                page.params = params;
                 var backPage = pages.length ? pages[0] : null;
                 pages.unshift(page);
                 if (animation) {
